@@ -10,15 +10,22 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - run: npm install --workspaces
-      - run: npm run test --workspaces
-      - run: npm run build --workspaces
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run unit & integration tests
+        run: npm run test --workspaces
+
+      - name: Build all packages
+        run: npm run build --workspaces
 
   deploy-platform:
     needs: build-and-test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+
       - name: Deploy Platform Backend to Railway
         run: |
           railway up \
@@ -33,6 +40,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+
       - name: Deploy TestSuite to Railway
         run: |
           railway up \
@@ -40,4 +48,4 @@ jobs:
             --environment a147cd7c-8ed2-4f1d-9837-859a2b648ef0 \
             --silent
         env:
-          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN_TESTSUITE }}
