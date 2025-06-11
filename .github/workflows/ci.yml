@@ -15,10 +15,10 @@ jobs:
         run: npm install
 
       - name: Run unit & integration tests
-        run: npm run test --workspaces
+        run: npm run test
 
       - name: Build all packages
-        run: npm run build --workspaces
+        run: npm run build
 
   deploy-platform:
     needs: build-and-test
