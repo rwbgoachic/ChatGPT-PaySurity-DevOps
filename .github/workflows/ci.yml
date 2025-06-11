@@ -31,7 +31,7 @@ jobs:
 
       - name: Deploy Platform Backend to Railway
         run: |
-          railway up \
+          railway up . \
             --project 8121fedc-c678-4865-8cf8-d3f097d4a67c \
             --environment 1a35c484-237d-413a-8562-e28ca60e0d3d \
             --silent
@@ -49,7 +49,7 @@ jobs:
 
       - name: Deploy TestSuite to Railway
         run: |
-          railway up \
+          railway up . \
             --project ac282ba3-5b42-488c-8582-e9757fada67f \
             --environment a147cd7c-8ed2-4f1d-9837-859a2b648ef0 \
             --silent
