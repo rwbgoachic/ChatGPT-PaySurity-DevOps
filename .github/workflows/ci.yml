@@ -1,0 +1,43 @@
+name: CI/CD
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: npm install --workspaces
+      - run: npm run test --workspaces
+      - run: npm run build --workspaces
+
+  deploy-platform:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Deploy Platform Backend to Railway
+        run: |
+          railway up \
+            --project 8121fedc-c678-4865-8cf8-d3f097d4a67c \
+            --environment 1a35c484-237d-413a-8562-e28ca60e0d3d \
+            --silent
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+
+  deploy-testsuite:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Deploy TestSuite to Railway
+        run: |
+          railway up \
+            --project ac282ba3-5b42-488c-8582-e9757fada67f \
+            --environment a147cd7c-8ed2-4f1d-9837-859a2b648ef0 \
+            --silent
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
