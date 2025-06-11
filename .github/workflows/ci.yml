@@ -26,6 +26,9 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: Install Railway CLI
+        run: npm install -g @railway/cli
+
       - name: Deploy Platform Backend to Railway
         run: |
           railway up \
@@ -40,6 +43,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+
+      - name: Install Railway CLI
+        run: npm install -g @railway/cli
 
       - name: Deploy TestSuite to Railway
         run: |
